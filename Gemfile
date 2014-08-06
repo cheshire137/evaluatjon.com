@@ -27,3 +27,6 @@ gem 'pg'
 gem 'rspec-rails'
 
 gem 'spring-commands-rspec', group: :development
+
+gem 'sass'
+gem 'compass'
