@@ -4,11 +4,10 @@ gem 'rails', '4.1.4'
 
 gem 'rails-api'
 
-gem 'spring', :group => :development
+# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+gem 'spring', group: :development
 
 gem 'pg'
-
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -26,3 +25,5 @@ gem 'pg'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'rspec-rails'
+
+gem 'spring-commands-rspec', group: :development

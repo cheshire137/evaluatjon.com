@@ -52,21 +52,6 @@ RSpec.describe RatingsController, :type => :controller do
     end
   end
 
-  describe "GET new" do
-    it "assigns a new rating as @rating" do
-      get :new, {}, valid_session
-      expect(assigns(:rating)).to be_a_new(Rating)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested rating as @rating" do
-      rating = Rating.create! valid_attributes
-      get :edit, {:id => rating.to_param}, valid_session
-      expect(assigns(:rating)).to eq(rating)
-    end
-  end
-
   describe "POST create" do
     describe "with valid params" do
       it "creates a new Rating" do
