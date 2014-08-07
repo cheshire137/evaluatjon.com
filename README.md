@@ -17,6 +17,7 @@ For front end:
 1. `cd client`
 1. `npm install`
 1. `bower install`
+1. `npm install -g grunt-cli`
 1. `grunt serve`
 
 ## How to Test
