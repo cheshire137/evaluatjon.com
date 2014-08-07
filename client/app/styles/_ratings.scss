@@ -28,7 +28,10 @@ ul.star-rating {
     padding: 1px;
     text-align: center;
     font-weight: bold;
-    cursor: pointer;
+
+    &.mutable {
+      cursor: pointer;
+    }
 
     .star {
       background: url('../images/star-off.png') no-repeat center center;
