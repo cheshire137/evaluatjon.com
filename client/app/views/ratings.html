@@ -1,6 +1,21 @@
 <ul class="list-unstyled ratings-list">
+  <li class="clearfix">
+    <form ng-submit="create_rating()">
+      <div class="form-group clearfix">
+        <div class="star-rating pull-left" star-rater rating-value="new_rating.stars" data-max="10" on-rating-selected="set_new_rating_stars(rating)"></div>
+        <button type="submit" class="btn btn-primary pull-right">Rate Jon</button>
+      </div>
+      <div class="form-group clearfix">
+        <input type="text" ng-model="new_rating.dimension" class="pull-left form-control" id="rating_dimension" placeholder="Dimension">
+        <input type="text" ng-model="new_rating.rater" class="pull-right form-control" id="rating_rater" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" ng-model="new_rating.comment" id="rating_comment" placeholder="Comment"></textarea>
+      </div>
+    </form>
+  </li>
   <li ng-repeat="rating in ratings" class="clearfix">
-    <div class="star-rating pull-right" star-rating rating-value="rating.stars" data-max="10" on-rating-selected="rateFunction(rating.stars)"></div>
+    <div class="star-rating pull-right" star-rating rating-value="rating.stars" data-max="10"></div>
     <strong>{{rating.dimension}}</strong> -
     <em>{{rating.rater}}</em>
     <p class="help-block">{{rating.comment}}</p>

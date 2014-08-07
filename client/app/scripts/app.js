@@ -28,7 +28,7 @@ app.config(function ($routeProvider) {
 
 app.factory('Rating', ['$resource', function ($resource) {
   return $resource('/api/ratings/:id.json', null, {
-    'update': { method:'PUT' }
+    'update': {method: 'PUT'}
   });
 }]);
 
@@ -42,8 +42,7 @@ app.directive('starRating', function() {
               '</ul>',
     scope: {
       ratingValue: '=',
-      max: '=',
-      onRatingSelected: '&'
+      max: '='
     },
     link: function(scope) {
       var update_rating = function() {
@@ -89,13 +88,14 @@ app.directive('starRater', function() {
           });
         }
       };
+      update_rating();
       scope.toggle = function(index) {
         scope.ratingValue = index + 1;
         scope.onRatingSelected({rating: index + 1});
       };
       scope.$watch('ratingValue',
-        function(old_value, new_value) {
-          if (new_value) {
+        function(new_value, old_value) {
+          if (new_value !== old_value) {
             update_rating();
           }
         }

@@ -1,3 +1,17 @@
+form {
+  .star-rating.mutable {
+    margin: 8px 0 0 0;
+  }
+}
+
+#rating_dimension {
+  width: 49%;
+}
+
+#rating_rater {
+  width: 49%;
+}
+
 .ratings-list {
   & > li {
     & + li {
