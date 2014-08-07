@@ -1,25 +1,23 @@
 class RatingsController < ApplicationController
+  before_action :set_rating, only: [:show, :update]
+
   # GET /ratings
   # GET /ratings.json
   def index
-    @ratings = Rating.all
-
+    @ratings = Rating.order(created_at: :desc)
     render json: @ratings
   end
 
   # GET /ratings/1
   # GET /ratings/1.json
   def show
-    @rating = Rating.find(params[:id])
-
     render json: @rating
   end
 
   # POST /ratings
   # POST /ratings.json
   def create
-    @rating = Rating.new(params[:rating])
-
+    @rating = Rating.new(rating_params)
     if @rating.save
       render json: @rating, status: :created, location: @rating
     else
@@ -30,21 +28,20 @@ class RatingsController < ApplicationController
   # PATCH/PUT /ratings/1
   # PATCH/PUT /ratings/1.json
   def update
-    @rating = Rating.find(params[:id])
-
-    if @rating.update(params[:rating])
+    if @rating.update(rating_params)
       head :no_content
     else
       render json: @rating.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /ratings/1
-  # DELETE /ratings/1.json
-  def destroy
-    @rating = Rating.find(params[:id])
-    @rating.destroy
+  private
 
-    head :no_content
+  def set_rating
+    @rating = Rating.find(params[:id])
+  end
+
+  def rating_params
+    params.require(:rating).permit(:dimension, :comment, :rater, :stars)
   end
 end
