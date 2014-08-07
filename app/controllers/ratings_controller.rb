@@ -21,7 +21,7 @@ class RatingsController < ApplicationController
     if @rating.save
       render json: @rating, status: :created, location: @rating
     else
-      render json: @rating.errors, status: :unprocessable_entity
+      render json: @rating.errors.full_messages, status: :unprocessable_entity
     end
   end
 

@@ -1,6 +1,14 @@
 <ul class="list-unstyled ratings-list">
   <li class="clearfix">
     <form ng-submit="create_rating()">
+      <div class="alert alert-danger" ng-show="new_rating.error_messages.length > 0">
+        <button type="button" class="close" ng-click="new_rating.error_messages = []"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <ul class="rating-errors list-unstyled">
+          <li ng-repeat="message in new_rating.error_messages">
+            {{message}}
+          </li>
+        </ul>
+      </div>
       <div class="form-group clearfix">
         <div class="star-rating pull-left" star-rater rating-value="new_rating.stars" data-max="10" on-rating-selected="set_new_rating_stars(rating)"></div>
         <button type="submit" class="btn btn-primary pull-right">Rate Jon</button>
