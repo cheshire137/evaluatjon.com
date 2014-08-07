@@ -1,0 +1,46 @@
+.ratings-list {
+  & > li {
+    & + li {
+      border-top: 1px solid $hr-border;
+      padding-top: $line-height-computed;
+      margin-top: $line-height-computed;
+    }
+  }
+
+  time {
+    font-size: 12px;
+    font-weight: 300;
+    color: #959595;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+}
+
+ul.star-rating {
+  color: #a9a9a9;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    padding: 1px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+
+    .star {
+      background: url('../images/star-off.png') no-repeat center center;
+      display: block;
+      width: 16px;
+      height: 16px;
+    }
+
+    &.filled {
+      .star {
+        background-image: url('../images/star-on.png');
+      }
+    }
+  }
+}

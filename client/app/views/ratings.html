@@ -1,7 +1,9 @@
-<div ng-controller="RatingsCtrl">
-  <h1>Ratings</h1>
-
-  <ul ng-repeat="rating in ratings">
-    <li>{{rating.dimension}}</li>
-  </ul>
-</div>
+<ul class="list-unstyled ratings-list">
+  <li ng-repeat="rating in ratings" class="clearfix">
+    <div class="star-rating pull-right" star-rating rating-value="rating.stars" data-max="10" on-rating-selected="rateFunction(rating.stars)"></div>
+    <strong>{{rating.dimension}}</strong> -
+    <em>{{rating.rater}}</em>
+    <p class="help-block">{{rating.comment}}</p>
+    <time am-time-ago="rating.created_at" title="{{rating.created_at}}"></time>
+  </li>
+</ul>
