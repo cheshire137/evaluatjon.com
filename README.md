@@ -10,15 +10,11 @@ For API:
 1. `bundle`
 1. `createuser -P -s -e evaluatjon`
 1. `rake db:create db:migrate db:seed`
-1. `rails s`
-
-For front end:
-
 1. `cd client`
 1. `npm install`
 1. `bower install`
 1. `npm install -g grunt-cli`
-1. `grunt serve`
+1. `grunt serve` to watch for front end file changes as well as start the Rails server.
 
 ## How to Test
 
