@@ -23,3 +23,7 @@ For front end:
 
 1. `RAILS_ENV=test rake db:create db:migrate`
 1. `RAILS_ENV=test rspec`
+
+## Thanks
+
+Thanks to [How to Wire Up Ruby on Rails and AngularJS as a Single-Page Application](http://www.angularonrails.com/ruby-on-rails-angularjs-single-page-application/).

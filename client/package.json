@@ -1,8 +1,8 @@
 {
   "name": "evaluatjon",
   "version": "0.0.0",
-  "dependencies": {},
-  "devDependencies": {
+  "description": "Evaluate any Jon you know.",
+  "dependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
     "grunt-concurrent": "^0.5.0",
