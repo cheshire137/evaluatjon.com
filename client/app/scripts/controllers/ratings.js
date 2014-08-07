@@ -19,6 +19,11 @@ angular.module('evaluatjonApp')
     $scope.create_rating = function() {
       var on_success = function (rating) {
         $scope.ratings.unshift(rating);
+        $scope.new_rating.stars = 0;
+        $scope.new_rating.error_messages.length = 0;
+        $scope.new_rating.dimension = '';
+        $scope.new_rating.comment = '';
+        $scope.new_rating.rater = '';
       };
       var on_error = function (response) {
         $scope.new_rating.error_messages = response.data;
