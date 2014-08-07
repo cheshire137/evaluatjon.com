@@ -46,24 +46,23 @@ app.directive('starRating', function() {
       onRatingSelected: '&'
     },
     link: function(scope) {
-      var updateStars = function() {
+      var update_rating = function() {
         scope.stars = [];
         for (var i=0; i<scope.max; i++) {
           scope.stars.push({
-            filled: i < scope.ratingValue
+            filled: i < scope.ratingValue,
+            half: i - 0.5 === scope.ratingValue
           });
         }
       };
       scope.toggle = function(index) {
         scope.ratingValue = index + 1;
-        scope.onRatingSelected({
-          rating: index + 1
-        });
+        scope.onRatingSelected({rating: index + 1});
       };
       scope.$watch('ratingValue',
-        function(oldVal, newVal) {
-          if (newVal) {
-            updateStars();
+        function(old_value, new_value) {
+          if (new_value) {
+            update_rating();
           }
         }
       );

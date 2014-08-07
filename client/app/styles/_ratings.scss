@@ -42,5 +42,11 @@ ul.star-rating {
         background-image: url('../images/star-on.png');
       }
     }
+
+    &.half {
+      .star {
+        background-image: url('../images/star-half.png');
+      }
+    }
   }
 }
