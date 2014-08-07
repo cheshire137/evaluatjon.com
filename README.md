@@ -24,6 +24,15 @@ For front end:
 1. `RAILS_ENV=test rake db:create db:migrate`
 1. `RAILS_ENV=test rspec`
 
+## How to Deploy to Heroku
+
+1. `git remote add heroku git@heroku.com:yourherokuapp.git`
+1. `heroku config:set NODE_ENV=production`
+1. `heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git`
+1. `git push heroku master`
+1. `heroku run rake db:migrate`
+1. `heroku run rake db:seed`
+
 ## Thanks
 
 Thanks to [How to Wire Up Ruby on Rails and AngularJS as a Single-Page Application](http://www.angularonrails.com/ruby-on-rails-angularjs-single-page-application/).
