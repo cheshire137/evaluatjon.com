@@ -30,3 +30,5 @@ gem 'spring-commands-rspec', group: :development
 
 gem 'sass'
 gem 'compass'
+
+ruby "2.1.1"
