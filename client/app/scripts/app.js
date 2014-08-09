@@ -1,5 +1,9 @@
 'use strict';
 
+$(function() {
+  $('body').tooltip({selector: '[data-toggle="tooltip"]'});
+});
+
 /**
  * @ngdoc overview
  * @name evaluatjonApp

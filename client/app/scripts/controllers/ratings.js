@@ -46,6 +46,29 @@ angular.module('evaluatjonApp')
       Rating.save({rating: $scope.new_rating}, on_success, on_error);
     };
 
+    $scope.delete_rating = function(rating) {
+      var should_delete =
+          $window.confirm('Are you sure you want to delete this rating?');
+      if (!should_delete) {
+        return;
+      }
+      var rating_id = rating.id;
+      var on_success = function() {
+        for (var i=0; i<$scope.ratings.length; i++) {
+          if ($scope.ratings[i].id === rating_id) {
+            $scope.ratings.splice(i, 1);
+          }
+        }
+      };
+      var on_error = function(response) {
+        console.error('failed to delete rating', rating, response);
+      };
+      Auth.currentUser().then(function(user) {
+        Rating.delete({email: user.email, token: user.auth_token,
+                       id: rating_id}, on_success, on_error);
+      });
+    };
+
     $scope.create_reply = function(rating) {
       var rating_id = rating.id;
       for (var other_rating_id in $scope.toggle.show_reply_form) {
