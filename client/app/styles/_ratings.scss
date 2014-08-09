@@ -105,6 +105,18 @@ ul.star-rating {
       .star {
         background-image: url('../images/star-half.png');
       }
+
+      &.hover {
+        .star {
+          background-image: url('../images/star-on.png');
+        }
+
+        &.active {
+          .star {
+            background-image: url('../images/star-half.png');
+          }
+        }
+      }
     }
   }
 }
