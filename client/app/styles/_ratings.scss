@@ -85,6 +85,9 @@ ul.star-rating {
 
     .close {
       line-height: 13px;
+      margin-bottom: -2px;
+      position: relative;
+      top: 2px;
     }
 
     .star {

@@ -33,7 +33,12 @@ You need [Ruby](https://www.ruby-lang.org/en/installation/) (I recommend [RubyIn
 ## How to Test
 
 1. `RAILS_ENV=test rake db:create db:migrate`
+1. `grunt heroku:production` to update the contents of `public/` for feature tests.
 1. `RAILS_ENV=test rspec`
+
+### Feature Tests
+
+To run feature tests in `spec/features`, you will need Firefox.
 
 ## How to Deploy to Heroku
 

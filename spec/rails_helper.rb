@@ -11,8 +11,13 @@ require 'rspec/collection_matchers'
 require 'database_cleaner'
 require 'factory_girl_rails'
 require 'capybara/rspec'
+require 'capybara/webkit/matchers'
 
-Capybara.run_server = true
+# Capybara.run_server = true
+Capybara.javascript_driver = :webkit
+
+include Warden::Test::Helpers
+Warden.test_mode!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -55,7 +60,8 @@ RSpec.configure do |config|
 
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
-  config.include Capybara::Angular::DSL
+  config.include AngularHelpers, type: :feature
+  config.include Capybara::Webkit::RspecMatchers, type: :feature
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

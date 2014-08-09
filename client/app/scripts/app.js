@@ -112,6 +112,7 @@ app.directive('starRater', function() {
       var update_rating = function() {
         for (var i=0; i<scope.max; i++) {
           scope.stars[i].filled = i + 1 <= scope.ratingValue;
+          scope.stars[i].half = i + 0.5 === scope.ratingValue;
         }
       };
       update_rating();

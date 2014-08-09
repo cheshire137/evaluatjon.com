@@ -9,8 +9,8 @@ class SessionsController < Devise::RegistrationsController
     resource = User.find_for_database_authentication(
       email: params[:user][:email]
     )
-    resource.reset_auth_token
     return invalid_login_attempt unless resource
+    resource.reset_auth_token
     if resource.valid_password?(params[:user][:password])
       sign_in 'user', resource
       render json: {email: resource.email, auth_token: resource.auth_token}
