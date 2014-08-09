@@ -1,34 +1,34 @@
 require 'rails_helper'
 
 RSpec.describe RatingsController, type: :controller do
-  let(:valid_attributes) {
-    {dimension: 'coolness', comment: 'Very neat!', rater: 'Jimbob',
-     stars: '0.5'}
-  }
-
-  let(:invalid_attributes) {
-    {dimension: nil, comment: nil, rater: nil, stars: -3}
-  }
-
   describe "GET index" do
+    before { @rating = create(:rating) }
+    let(:make_request) { ->{ get :index } }
+
     it "assigns all ratings as @ratings" do
-      rating = Rating.create!(valid_attributes)
-      get :index
-      expect(assigns(:ratings)).to eq([rating])
+      make_request.call
+      expect(assigns(:ratings)).to eq([@rating])
     end
   end
 
   describe "GET show" do
+    let(:rating) { create(:rating) }
+    let(:make_request) { ->{ get :show, id: rating } }
+
     it "assigns the requested rating as @rating" do
-      rating = Rating.create!(valid_attributes)
-      get :show, id: rating
+      make_request.call
       expect(assigns(:rating)).to eq(rating)
     end
   end
 
   describe "POST create" do
-    describe "with valid params" do
-      let(:make_request) { ->{ post :create, rating: valid_attributes } }
+    let(:make_request) { ->{ post :create, rating: rating_attrs } }
+    let(:rating_attrs) {
+      {stars: '0.5', dimension: 'coolness', comment: 'Very neat!',
+       rater: 'Jimbob'}
+    }
+
+    context 'when the rating saves' do
       it "creates a new Rating" do
         expect(make_request).to change(Rating, :count).by(1)
       end
@@ -53,66 +53,99 @@ RSpec.describe RatingsController, type: :controller do
       end
     end
 
-    describe "with invalid params" do
+    context 'when rating does not save' do
+      before do
+        allow_any_instance_of(Rating).to receive(:save).and_return(false)
+      end
+
       it "assigns a newly created but unsaved rating as @rating" do
-        post :create, {rating: invalid_attributes}
+        make_request.call
         expect(assigns(:rating)).to be_a_new(Rating)
       end
 
       it "does not load successfully" do
-        post :create, {rating: invalid_attributes}
+        make_request.call
         expect(response.code).to eq('422')
       end
     end
   end
 
   describe "PUT update" do
-    before do
-      @user = User.create!(email: 'neato@example.com', password: 'password',
-                           password_confirmation: 'password')
+    let(:user) { create(:user) }
+    let(:rating) { create(:rating) }
+    let(:make_request) {
+      ->{ put :update, id: rating, email: email, token: token,
+                       rating: rating_attrs }
+    }
+    let(:rating_attrs) { {stars: 5, rater: 'Cool Guy #3'} }
+
+    context 'when authenticated' do
+      let(:email) { user.email }
+      let(:token) { user.auth_token }
+
+      context 'when rating saves' do
+        it "updates the requested rating's stars" do
+          make_request.call
+          expect(rating.reload.stars).to eq(rating_attrs[:stars])
+        end
+
+        it "updates the requested rating's rater" do
+          make_request.call
+          expect(rating.reload.rater).to eq(rating_attrs[:rater])
+        end
+
+        it "assigns the requested rating as @rating" do
+          make_request.call
+          expect(assigns(:rating)).to eq(rating)
+        end
+
+        it "responds successfully" do
+          make_request.call
+          expect(response).to be_success
+        end
+      end
+
+      context 'when rating does not save' do
+        before do
+          allow_any_instance_of(Rating).to receive(:save).and_return(false)
+        end
+
+        it "does not update the requested rating's stars" do
+          before_value = rating.stars
+          make_request.call
+          expect(rating.reload.stars).to eq(before_value)
+        end
+
+        it "does not update the requested rating's rater" do
+          before_value = rating.rater
+          make_request.call
+          expect(rating.reload.rater).to eq(before_value)
+        end
+
+        it "assigns the rating as @rating" do
+          make_request.call
+          expect(assigns(:rating)).to eq(rating)
+        end
+
+        it "does not respond successfully" do
+          make_request.call
+          expect(response.code).to eq('422')
+        end
+      end
     end
-    let(:email) { @user.email }
-    let(:token) { @user.auth_token }
 
-    describe "with valid params" do
-      let(:new_attributes) { {stars: 5, rater: 'Cool Guy #3'} }
+    context 'when not authenticated' do
+      let(:email) { nil }
+      let(:token) { nil }
 
-      it "updates the requested rating" do
-        rating = Rating.create!(valid_attributes)
-        put :update, {id: rating, email: email, token: token,
-                      rating: new_attributes}
-        rating.reload
-        skip("Add assertions for updated state")
+      it "does not assign the rating as @rating" do
+        make_request.call
+        expect(assigns(:rating)).to eq(nil)
       end
 
-      it "assigns the requested rating as @rating" do
-        rating = Rating.create!(valid_attributes)
-        put :update, {id: rating, email: email, token: token,
-                      rating: valid_attributes}
-        expect(assigns(:rating)).to eq(rating)
-      end
-
-      it "responds successfully" do
-        rating = Rating.create!(valid_attributes)
-        put :update, {id: rating, email: email, token: token,
-                      rating: valid_attributes}
-        expect(response).to be_success
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the rating as @rating" do
-        rating = Rating.create!(valid_attributes)
-        put :update, {id: rating, email: email, token: token,
-                      rating: invalid_attributes}
-        expect(assigns(:rating)).to eq(rating)
-      end
-
-      it "does not respond successfully" do
-        rating = Rating.create!(valid_attributes)
-        put :update, {id: rating, email: email, token: token,
-                      rating: invalid_attributes}
-        expect(response.code).to eq('422')
+      it 'responds with unauthorized code' do
+        make_request.call
+        expect(response.code).to eq('401')
       end
     end
   end

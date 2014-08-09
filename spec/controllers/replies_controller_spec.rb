@@ -147,9 +147,9 @@ RSpec.describe RepliesController, type: :controller do
           expect(assigns(:reply)).to eq(nil)
         end
 
-        it "does not respond successfully" do
+        it 'responds with unauthorized code' do
           make_request.call
-          expect(response).to_not be_success
+          expect(response.code).to eq('401')
         end
       end
     end
