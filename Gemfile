@@ -31,6 +31,7 @@ group :development, :test do
   gem 'database_cleaner', '< 1.1.0'
   gem 'simplecov', '~> 0.9.0', require: false
   gem 'capybara'
+  gem 'capybara-angular'
   gem 'selenium-webdriver'
 end
 
