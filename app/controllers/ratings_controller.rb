@@ -3,6 +3,12 @@ class RatingsController < ApplicationController
   before_filter :authenticate_user!, only: [:destroy, :update]
   before_action :set_rating, only: [:show, :update, :destroy]
 
+  # GET /ratings/statistics.json
+  def statistics
+    @average_stars = Rating.average(:stars)
+    render json: {average: @average_stars}
+  end
+
   # GET /ratings
   # GET /ratings.json
   def index

@@ -8,14 +8,19 @@
  * Controller of the evaluatjonApp
  */
 angular.module('evaluatjonApp')
-  .controller('RatingsCtrl', ['$scope', '$window', 'Rating', 'Reply', 'Auth', function ($scope, $window, Rating, Reply, Auth) {
+  .controller('RatingsCtrl', ['$scope', '$http', '$window', 'Rating', 'Reply', 'Auth', function ($scope, $http, $window, Rating, Reply, Auth) {
     $scope.ratings = Rating.query();
+    $scope.statistics = {average: {}};
     $scope.new_rating = {stars: 0, error_messages: []};
     $scope.auth_status = {logged_in: Auth.isAuthenticated(),
                           user: {}};
     $scope.credentials = {email: '', password: ''};
     $scope.toggle = {show_reply_form: {}};
     $scope.new_reply = {message: '', error_messages: []};
+
+    $http.get('/api/ratings/statistics.json').success(function(data) {
+      $scope.statistics.average = parseFloat(data.average);
+    });
 
     $scope.login = function() {
       Auth.login($scope.credentials);

@@ -4,6 +4,9 @@ Rails.application.routes.draw do
                                      sessions: 'sessions'}
 
     resources :ratings, except: [:new, :edit] do
+      collection do
+        get :statistics
+      end
       resources :replies, except: [:new, :edit]
     end
   end

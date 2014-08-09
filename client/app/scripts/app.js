@@ -65,10 +65,11 @@ app.directive('starRating', function() {
     link: function(scope) {
       var update_rating = function() {
         scope.stars = [];
+        var num_stars = scope.ratingValue;
         for (var i=0; i<scope.max; i++) {
           scope.stars.push({
-            filled: i < scope.ratingValue,
-            half: i - 0.5 === scope.ratingValue
+            filled: i < num_stars,
+            half: i - 0.5 === num_stars
           });
         }
       };
@@ -108,8 +109,12 @@ app.directive('starRater', function() {
       };
       update_rating();
       scope.toggle = function(index) {
-        scope.ratingValue = index + 1;
-        scope.onRatingSelected({rating: index + 1});
+        if (scope.ratingValue === index + 1) {
+          scope.ratingValue = 0;
+        } else {
+          scope.ratingValue = index + 1;
+        }
+        scope.onRatingSelected({rating: scope.ratingValue});
       };
       scope.$watch('ratingValue',
         function(new_value, old_value) {

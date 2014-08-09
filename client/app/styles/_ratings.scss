@@ -88,7 +88,9 @@ ul.star-rating {
 
     .star {
       background: url('../images/star-off.png') no-repeat center center;
-      display: block;
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 2px;
       width: 16px;
       height: 16px;
     }
