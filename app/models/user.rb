@@ -6,15 +6,6 @@ class User < ActiveRecord::Base
 
   has_many :replies
 
-  validates :email, presence: true, uniqueness: true
-
-  validates :password, presence: true, length: {minimum: 5, maximum: 120},
-                       on: :create, confirmation: true
-
-  # See http://stackoverflow.com/questions/16811530/devise-3-rails-4-cant-update-user-without-password
-  validates :password, length: {minimum: 5, maximum: 120}, on: :update,
-                       allow_blank: true, confirmation: true
-
   before_save :ensure_auth_token
 
   def as_json options={}
