@@ -47,39 +47,47 @@ RSpec.describe RatingsController, type: :controller do
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved rating as @rating" do
-        post :create, {:rating => invalid_attributes}
+        post :create, {rating: invalid_attributes}
         expect(assigns(:rating)).to be_a_new(Rating)
       end
 
       it "does not load successfully" do
-        post :create, {:rating => invalid_attributes}
+        post :create, {rating: invalid_attributes}
         expect(response.code).to eq('422')
       end
     end
   end
 
   describe "PUT update" do
+    before do
+      @user = User.create!(email: 'neato@example.com', password: 'password',
+                           password_confirmation: 'password')
+    end
+    let(:email) { @user.email }
+    let(:token) { @user.auth_token }
+
     describe "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { {stars: 5, rater: 'Cool Guy #3'} }
 
       it "updates the requested rating" do
         rating = Rating.create!(valid_attributes)
-        put :update, {:id => rating.to_param, :rating => new_attributes}
+        put :update, {id: rating, email: email, token: token,
+                      rating: new_attributes}
         rating.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested rating as @rating" do
         rating = Rating.create!(valid_attributes)
-        put :update, {:id => rating.to_param, :rating => valid_attributes}
+        put :update, {id: rating, email: email, token: token,
+                      rating: valid_attributes}
         expect(assigns(:rating)).to eq(rating)
       end
 
       it "responds successfully" do
         rating = Rating.create!(valid_attributes)
-        put :update, {:id => rating.to_param, :rating => valid_attributes}
+        put :update, {id: rating, email: email, token: token,
+                      rating: valid_attributes}
         expect(response).to be_success
       end
     end
@@ -87,13 +95,15 @@ RSpec.describe RatingsController, type: :controller do
     describe "with invalid params" do
       it "assigns the rating as @rating" do
         rating = Rating.create!(valid_attributes)
-        put :update, {:id => rating.to_param, :rating => invalid_attributes}
+        put :update, {id: rating, email: email, token: token,
+                      rating: invalid_attributes}
         expect(assigns(:rating)).to eq(rating)
       end
 
       it "does not respond successfully" do
         rating = Rating.create!(valid_attributes)
-        put :update, {:id => rating.to_param, :rating => invalid_attributes}
+        put :update, {id: rating, email: email, token: token,
+                      rating: invalid_attributes}
         expect(response.code).to eq('422')
       end
     end
