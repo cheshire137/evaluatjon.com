@@ -1,20 +1,22 @@
 class RepliesController < ApplicationController
-  before_filter :authenticate_user_from_token!
-  before_filter :authenticate_user!
-  before_action :set_rating
+  before_filter :authenticate_user_from_token!,
+                only: [:create, :update, :destroy]
+  before_filter :authenticate_user!,
+                only: [:create, :update, :destroy]
+  before_action :set_rating, only: [:index, :create]
   before_action :set_reply, only: [:show, :update, :destroy]
 
   # GET /ratings/1/replies
   # GET /ratings/1/replies.json
   def index
-    @replies = Reply.order(created_at: :desc)
-    render json: @replies.to_json(include: :user)
+    @replies = @rating.replies.order(created_at: :desc)
+    render json: @replies
   end
 
   # GET /ratings/1/replies/1
   # GET /ratings/1/replies/1.json
   def show
-    render json: @reply.to_json(include: :user)
+    render json: @reply
   end
 
   # POST /ratings/1/replies
@@ -23,8 +25,7 @@ class RepliesController < ApplicationController
     @reply = @rating.replies.new(reply_params)
     @reply.user = current_user
     if @reply.save
-      render json: @reply.to_json(include: :user), status: :created,
-             location: [@rating, @reply]
+      render json: @reply, status: :created, location: [@rating, @reply]
     else
       render json: @reply.errors, status: :unprocessable_entity
     end
@@ -58,6 +59,7 @@ class RepliesController < ApplicationController
   end
 
   def set_reply
+    set_rating
     @reply = @rating.replies.find(params[:id])
   end
 end

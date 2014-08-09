@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
 
   before_save :ensure_auth_token
 
+  def as_json options={}
+    super(only: [:email, :id]).merge(options)
+  end
+
   def ensure_auth_token
     self.auth_token ||= generate_auth_token
   end

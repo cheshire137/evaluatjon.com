@@ -7,13 +7,13 @@ class RatingsController < ApplicationController
   # GET /ratings.json
   def index
     @ratings = Rating.order(created_at: :desc)
-    render json: @ratings.to_json(include: {replies: {include: :user}})
+    render json: @ratings
   end
 
   # GET /ratings/1
   # GET /ratings/1.json
   def show
-    render json: @rating.to_json(include: {replies: {include: :user}})
+    render json: @rating
   end
 
   # POST /ratings
@@ -21,8 +21,7 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new(rating_params)
     if @rating.save
-      render json: @rating.to_json(include: :replies), status: :created,
-             location: @rating
+      render json: @rating, status: :created, location: @rating
     else
       render json: @rating.errors.full_messages, status: :unprocessable_entity
     end
