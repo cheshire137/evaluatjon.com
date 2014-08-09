@@ -54,9 +54,9 @@ app.directive('starRating', function() {
   return {
     restrict: 'A',
     template: '<ul class="star-rating">' +
-              ' <li ng-repeat="star in stars" class="star" ng-class="{filled: star.filled, half: star.half}">' +
-              '  <span class="star"></span>' +
-              ' </li>' +
+              '  <li ng-repeat="star in stars" class="star" ng-class="{filled: star.filled, half: star.half}">' +
+              '    <span class="star"></span>' +
+              '  </li>' +
               '</ul>',
     scope: {
       ratingValue: '=',
@@ -69,8 +69,8 @@ app.directive('starRating', function() {
       }
       var update_rating = function() {
         for (var i=0; i<scope.max; i++) {
-          scope.stars[i].filled = i < scope.ratingValue;
-          scope.stars[i].half = i - 0.5 === scope.ratingValue;
+          scope.stars[i].filled = i + 1 <= scope.ratingValue;
+          scope.stars[i].half = i + 0.5 === scope.ratingValue;
         }
       };
       scope.$watch('ratingValue',
@@ -88,9 +88,15 @@ app.directive('starRater', function() {
   return {
     restrict: 'A',
     template: '<ul class="star-rating mutable">' +
-              ' <li ng-repeat="star in stars" class="star" ng-class="{hover: star.hover, filled: star.filled, half: star.half, active: star.active}" ng-click="toggle($event, star)" ng-mousemove="on_move($event, star)" ng-mouseover="on_hover($event, star)" ng-mouseleave="off_hover()">' +
-              '  <span class="star"></span>' +
-              ' </li>' +
+              '  <li ng-repeat="star in stars" class="star" ng-class="{hover: star.hover, filled: star.filled, half: star.half, active: star.active}" ng-click="toggle($event, star)" ng-mousemove="on_move($event, star)" ng-mouseover="on_hover($event, star)" ng-mouseleave="off_hover()">' +
+              '    <span class="star"></span>' +
+              '  </li>' +
+              '  <li ng-show="ratingValue && ratingValue > 0">' +
+              '    <button title="Clear" data-placement="right" data-toggle="tooltip" ng-click="clear_rating()" type="button" class="close">' +
+              '      <span aria-hidden="true">&times;</span>' +
+              '      <span class="sr-only">Clear</span>' +
+              '    </button>' +
+              '  </li>' +
               '</ul>',
     scope: {
       ratingValue: '=',
@@ -105,15 +111,14 @@ app.directive('starRater', function() {
       }
       var update_rating = function() {
         for (var i=0; i<scope.max; i++) {
-          scope.stars[i].filled = i < scope.ratingValue;
-          scope.stars[i].half = i - 0.5 === scope.ratingValue;
+          scope.stars[i].filled = i + 1 <= scope.ratingValue;
         }
       };
       update_rating();
       var set_half = function(event, star) {
         var mouse_x = event.offsetX;
         var offset_index = star.index + 1;
-        var star_el = element.find(':nth-child(' + offset_index + ')');
+        var star_el = element.find('li.star:nth-child(' + offset_index + ')');
         var star_width = star_el.width();
         var star_left = star_el.offset().left;
         var star_half_width = star_left + (star_width / 2.0);
@@ -140,18 +145,16 @@ app.directive('starRater', function() {
         for (var i=0; i<scope.max; i++) {
           scope.stars[i].active = false;
           scope.stars[i].hover = false;
-          scope.stars[i].half = i - 0.5 === scope.ratingValue;
+          scope.stars[i].half = i + 0.5 === scope.ratingValue;
         }
+      };
+      scope.clear_rating = function() {
+        scope.ratingValue = 0;
+        scope.onRatingSelected({rating: scope.ratingValue});
       };
       scope.toggle = function(event, star) {
         set_half(event, star);
-        if (star.filled) {
-          scope.ratingValue = 0;
-        } else {
-          var increment = star.half ? -0.5 : 1;
-          scope.ratingValue = star.index + increment;
-        }
-        update_rating();
+        scope.ratingValue = star.index + (star.half ? 0.5 : 1);
         scope.onRatingSelected({rating: scope.ratingValue});
       };
       scope.$watch('ratingValue',

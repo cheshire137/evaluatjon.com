@@ -1,15 +1,12 @@
-form {
-  .star-rating.mutable {
-    margin: 8px 0 0 0;
+.input-group.multi {
+  .form-control {
+    width: 40%;
+
+    & + .form-control {
+      width: 60%;
+      border-left: none;
+    }
   }
-}
-
-#rating_dimension {
-  width: 49%;
-}
-
-#rating_rater {
-  width: 49%;
 }
 
 .ratings-list {
@@ -86,6 +83,10 @@ ul.star-rating {
     text-align: center;
     font-weight: bold;
 
+    .close {
+      line-height: 13px;
+    }
+
     .star {
       background: url('../images/star-off.png') no-repeat center center;
       display: inline-block;
@@ -115,6 +116,50 @@ ul.star-rating {
           .star {
             background-image: url('../images/star-half.png');
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $screen-xs) {
+  .rating-form {
+    .input-group {
+      display: block;
+
+      &.multi {
+        .form-control {
+          width: 100%;
+          border-radius: $input-border-radius;
+          margin-bottom: 15px;
+
+          & + .form-control {
+            border-left: 1px solid $input-border;
+          }
+        }
+      }
+
+      .input-group-addon {
+        display: block;
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        width: auto;
+        margin-bottom: 15px;
+      }
+
+      .input-group-btn:last-child > .btn {
+        margin-left: 0;
+        border-bottom-left-radius: $input-border-radius;
+        border-top-left-radius: $input-border-radius;
+      }
+
+      .form-control {
+        float: none;
+
+        &:last-child {
+          border-bottom-left-radius: $input-border-radius;
+          border-top-left-radius: $input-border-radius;
         }
       }
     }

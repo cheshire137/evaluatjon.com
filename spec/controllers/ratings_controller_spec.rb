@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe RatingsController, type: :controller do
   let(:valid_attributes) {
-    {dimension: 'coolness', comment: 'Very neat!', rater: 'Jimbob', stars: 0.5}
+    {dimension: 'coolness', comment: 'Very neat!', rater: 'Jimbob',
+     stars: '0.5'}
   }
 
   let(:invalid_attributes) {
