@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RatingsController, type: :controller do
   let(:valid_attributes) {
-    {dimension: 'coolness', comment: 'Very neat!', rater: 'Jimbob', stars: 6.5}
+    {dimension: 'coolness', comment: 'Very neat!', rater: 'Jimbob', stars: 0.5}
   }
 
   let(:invalid_attributes) {
@@ -27,21 +27,28 @@ RSpec.describe RatingsController, type: :controller do
 
   describe "POST create" do
     describe "with valid params" do
+      let(:make_request) { ->{ post :create, rating: valid_attributes } }
       it "creates a new Rating" do
-        expect {
-          post :create, rating: valid_attributes
-        }.to change(Rating, :count).by(1)
+        expect(make_request).to change(Rating, :count).by(1)
       end
 
       it "assigns a newly created rating as @rating" do
-        post :create, rating: valid_attributes
+        make_request.call
         expect(assigns(:rating)).to be_a(Rating)
         expect(assigns(:rating)).to be_persisted
       end
 
       it "responds successfully" do
-        post :create, rating: valid_attributes
+        make_request.call
         expect(response).to be_success
+      end
+
+      it 'creates a rating with specified parameters' do
+        make_request.call
+        expect(Rating.last.stars).to eq(0.5)
+        expect(Rating.last.dimension).to eq('coolness')
+        expect(Rating.last.comment).to eq('Very neat!')
+        expect(Rating.last.rater).to eq('Jimbob')
       end
     end
 
