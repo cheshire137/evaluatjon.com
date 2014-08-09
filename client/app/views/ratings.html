@@ -30,3 +30,39 @@
     <time am-time-ago="rating.created_at" title="{{rating.created_at}}"></time>
   </li>
 </ul>
+
+<hr>
+
+<div class="row">
+  <div class="col-sm-9 col-md-7">
+    <p ng-hide="auth_status.logged_in">
+      <a ng-click="toggle.show_login_form = !toggle.show_login_form">
+        Manage ratings
+      </a>
+    </p>
+
+    <p ng-show="auth_status.logged_in">
+      You are signed in as <strong>{{auth_status.user.email}}</strong>.
+    </p>
+
+    <form class="form-horizontal" ng-submit="login()" ng-show="toggle.show_login_form && !auth_status.logged_in">
+      <div class="form-group">
+        <label for="user_email" class="control-label col-sm-4">Email address:</label>
+        <div class="col-sm-8">
+          <input type="text" class="form-control" id="user_email" ng-model="credentials.email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="user_password" class="control-label col-sm-4">Password:</label>
+        <div class="col-sm-8">
+          <input type="password" class="form-control" id="user_password" ng-model="credentials.password">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-8">
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

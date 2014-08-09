@@ -5,6 +5,14 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/boots
 
 @import "ratings";
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+a[ng-click] {
+  cursor: pointer;
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -43,6 +51,7 @@ body {
 .footer {
   padding-top: 19px;
   color: #777;
+  margin-top: 10px;
   font-size: $font-size-small;
   border-top: 1px solid #e5e5e5;
 

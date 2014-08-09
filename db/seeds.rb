@@ -1,3 +1,4 @@
+puts 'Creating ratings'
 Rating.create!([
   {dimension: 'chicken tacos', stars: 3.0, rater: 'Tanzi',
    comment: 'His chicken was too spicy, but still tasty. I give him 3 stars.'},

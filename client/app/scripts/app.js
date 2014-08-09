@@ -15,8 +15,14 @@ var app = angular.module('evaluatjonApp', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'angularMoment'
+    'angularMoment',
+    'Devise'
   ]);
+
+app.config(function(AuthProvider) {
+  AuthProvider.loginPath('/api/users/sign_in');
+  AuthProvider.loginMethod('POST');
+});
 
 app.config(function ($routeProvider) {
   $routeProvider.when('/', {

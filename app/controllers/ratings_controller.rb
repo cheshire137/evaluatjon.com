@@ -1,5 +1,6 @@
 class RatingsController < ApplicationController
-  before_action :set_rating, only: [:show, :update]
+  before_filter :authenticate_user!, only: [:destroy, :update]
+  before_action :set_rating, only: [:show, :update, :destroy]
 
   # GET /ratings
   # GET /ratings.json
@@ -33,6 +34,13 @@ class RatingsController < ApplicationController
     else
       render json: @rating.errors, status: :unprocessable_entity
     end
+  end
+
+  # DELETE /ratings/1
+  # DELETE /ratings/1.json
+  def destroy
+    @rating.destroy
+    head :no_content
   end
 
   private

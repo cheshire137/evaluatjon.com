@@ -8,9 +8,23 @@
  * Controller of the evaluatjonApp
  */
 angular.module('evaluatjonApp')
-  .controller('RatingsCtrl', ['$scope', 'Rating', function ($scope, Rating) {
+  .controller('RatingsCtrl', ['$scope', 'Rating', 'Auth', function ($scope, Rating, Auth) {
     $scope.ratings = Rating.query();
     $scope.new_rating = {stars: 0, error_messages: []};
+    $scope.auth_status = {logged_in: Auth.isAuthenticated(),
+                          user: {}};
+    $scope.credentials = {email: '', password: ''};
+    $scope.toggle = {show_login_form: false};
+
+    $scope.login = function() {
+      Auth.login($scope.credentials);
+    };
+
+    $scope.$on('devise:login', function(event, current_user) {
+      $scope.auth_status.logged_in = true;
+      $scope.auth_status.user = current_user;
+      console.log('logged in as', current_user);
+    });
 
     $scope.set_new_rating_stars = function(stars) {
       $scope.new_rating.stars = stars;
