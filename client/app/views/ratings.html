@@ -38,6 +38,7 @@
       </span>
       <ul class="list-unstyled replies-list" ng-show="rating.replies.length > 0">
         <li class="reply clearfix" ng-repeat="reply in rating.replies">
+          <button type="button" ng-show="auth_status.logged_in" class="close" ng-click="delete_reply(rating, reply)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
           <time class="reply-time pull-right" am-time-ago="reply.created_at" title="{{reply.created_at}}"></time>
           <span class="reply-message">{{reply.message}}</span>
           <span class="separator">

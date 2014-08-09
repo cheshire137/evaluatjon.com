@@ -75,39 +75,6 @@ body {
   }
 }
 
-.rating-footer {
-  a {
-    &, &:visited, &:active {
-      color: $gray-light;
-    }
-
-    &:hover, &:focus {
-      text-decoration: underline;
-    }
-  }
-}
-
-.replies-list {
-  margin-top: ($line-height-computed / 2);
-
-  .reply {
-    padding: ($line-height-computed / 2);
-    background-color: #eee;
-
-    .reply-time {
-      margin-left: ($line-height-computed / 2);
-    }
-
-    & + .reply {
-      margin-top: ($line-height-computed / 2);
-    }
-  }
-}
-
-.reply-form {
-  margin-top: ($line-height-computed / 2);
-}
-
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

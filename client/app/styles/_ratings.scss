@@ -28,6 +28,45 @@ form {
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+
+  .replies-list {
+    margin-top: ($line-height-computed / 2);
+
+    .reply {
+      padding: ($line-height-computed / 2);
+      background-color: #eee;
+
+      .close {
+        margin-top: -3px;
+        margin-left: ($line-height-computed / 2);
+      }
+
+      .reply-time {
+        margin-left: ($line-height-computed / 2);
+        line-height: $line-height-computed;
+      }
+
+      & + .reply {
+        margin-top: ($line-height-computed / 2);
+      }
+    }
+  }
+}
+
+.rating-footer {
+  a {
+    &, &:visited, &:active {
+      color: $gray-light;
+    }
+
+    &:hover, &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+.reply-form {
+  margin-top: ($line-height-computed / 2);
 }
 
 ul.star-rating {

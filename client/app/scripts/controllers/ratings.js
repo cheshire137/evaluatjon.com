@@ -8,7 +8,7 @@
  * Controller of the evaluatjonApp
  */
 angular.module('evaluatjonApp')
-  .controller('RatingsCtrl', ['$scope', 'Rating', 'Reply', 'Auth', function ($scope, Rating, Reply, Auth) {
+  .controller('RatingsCtrl', ['$scope', '$window', 'Rating', 'Reply', 'Auth', function ($scope, $window, Rating, Reply, Auth) {
     $scope.ratings = Rating.query();
     $scope.new_rating = {stars: 0, error_messages: []};
     $scope.auth_status = {logged_in: Auth.isAuthenticated(),
@@ -47,7 +47,6 @@ angular.module('evaluatjonApp')
     };
 
     $scope.create_reply = function(rating) {
-      console.log('create_reply', rating);
       var rating_id = rating.id;
       for (var other_rating_id in $scope.toggle.show_reply_form) {
         if (other_rating_id !== rating_id) {
@@ -55,7 +54,6 @@ angular.module('evaluatjonApp')
         }
       }
       var on_success = function (reply) {
-        console.log('made reply', reply);
         rating.replies.unshift(reply);
         $scope.new_reply.message = '';
         $scope.new_reply.error_messages.length = 0;
@@ -64,10 +62,34 @@ angular.module('evaluatjonApp')
         $scope.new_reply.error_messages = response.data;
       };
       Auth.currentUser().then(function(user) {
-        console.log('replying as user', user);
         Reply.save({rating_id: rating_id, reply: $scope.new_reply,
                     email: user.email, token: user.auth_token}, on_success,
                    on_error);
+      });
+    };
+
+    $scope.delete_reply = function(rating, reply) {
+      var should_delete =
+          $window.confirm('Are you sure you want to delete this reply?');
+      if (!should_delete) {
+        return;
+      }
+      var rating_id = rating.id;
+      var reply_id = reply.id;
+      var on_success = function() {
+        for (var i=0; i<rating.replies.length; i++) {
+          if (rating.replies[i].id === reply_id) {
+            rating.replies.splice(i, 1);
+          }
+        }
+      };
+      var on_error = function(response) {
+        console.error('failed to delete reply', reply, response);
+      };
+      Auth.currentUser().then(function(user) {
+        Reply.delete({rating_id: rating_id, email: user.email,
+                      token: user.auth_token, id: reply_id}, on_success,
+                      on_error);
       });
     };
   }]);
