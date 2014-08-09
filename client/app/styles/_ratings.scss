@@ -76,15 +76,15 @@ ul.star-rating {
   display: inline-block;
   list-style: none;
 
+  &.mutable {
+    cursor: pointer;
+  }
+
   li {
     display: inline-block;
     padding: 1px;
     text-align: center;
     font-weight: bold;
-
-    &.mutable {
-      cursor: pointer;
-    }
 
     .star {
       background: url('../images/star-off.png') no-repeat center center;
@@ -95,7 +95,7 @@ ul.star-rating {
       height: 16px;
     }
 
-    &.filled {
+    &.filled, &.hover {
       .star {
         background-image: url('../images/star-on.png');
       }

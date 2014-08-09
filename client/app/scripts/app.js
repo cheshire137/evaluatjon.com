@@ -54,7 +54,7 @@ app.directive('starRating', function() {
   return {
     restrict: 'A',
     template: '<ul class="star-rating">' +
-              ' <li ng-repeat="star in stars" ng-class="star">' +
+              ' <li ng-repeat="star in stars" class="star" ng-class="{filled: star.filled, half: star.half}">' +
               '  <span class="star"></span>' +
               ' </li>' +
               '</ul>',
@@ -63,14 +63,14 @@ app.directive('starRating', function() {
       max: '='
     },
     link: function(scope) {
+      scope.stars = [];
+      for (var i=0; i<scope.max; i++) {
+        scope.stars.push({index: i, filled: false, half: false});
+      }
       var update_rating = function() {
-        scope.stars = [];
-        var num_stars = scope.ratingValue;
         for (var i=0; i<scope.max; i++) {
-          scope.stars.push({
-            filled: i < num_stars,
-            half: i - 0.5 === num_stars
-          });
+          scope.stars[i].filled = i < scope.ratingValue;
+          scope.stars[i].half = i - 0.5 === scope.ratingValue;
         }
       };
       scope.$watch('ratingValue',
@@ -88,7 +88,7 @@ app.directive('starRater', function() {
   return {
     restrict: 'A',
     template: '<ul class="star-rating mutable">' +
-              ' <li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
+              ' <li ng-repeat="star in stars" class="star" ng-class="{hover: star.hover, filled: star.filled, half: star.half}" ng-click="toggle(star)" ng-mouseover="on_hover(star)" ng-mouseleave="off_hover()">' +
               '  <span class="star"></span>' +
               ' </li>' +
               '</ul>',
@@ -97,23 +97,38 @@ app.directive('starRater', function() {
       max: '=',
       onRatingSelected: '&'
     },
-    link: function(scope) {
+    link: function(scope, element) {
+      scope.stars = [];
+      for (var i=0; i<scope.max; i++) {
+        scope.stars.push({index: i, hover: false, filled: false, half: false});
+      }
       var update_rating = function() {
-        scope.stars = [];
         for (var i=0; i<scope.max; i++) {
-          scope.stars.push({
-            filled: i < scope.ratingValue,
-            half: i - 0.5 === scope.ratingValue
-          });
+          scope.stars[i].filled = i < scope.ratingValue;
+          scope.stars[i].half = i - 0.5 === scope.ratingValue;
         }
       };
       update_rating();
-      scope.toggle = function(index) {
-        if (scope.ratingValue === index + 1) {
+      scope.on_hover = function(star) {
+        for (var i=0; i<=star.index; i++) {
+          scope.stars[i].hover = true;
+        }
+        for (var j=star.index+1; j<scope.max; j++) {
+          scope.stars[j].hover = false;
+        }
+      };
+      scope.off_hover = function() {
+        for (var i=0; i<scope.max; i++) {
+          scope.stars[i].hover = false;
+        }
+      };
+      scope.toggle = function(star) {
+        if (star.filled) {
           scope.ratingValue = 0;
         } else {
-          scope.ratingValue = index + 1;
+          scope.ratingValue = star.index + 1;
         }
+        update_rating();
         scope.onRatingSelected({rating: scope.ratingValue});
       };
       scope.$watch('ratingValue',
