@@ -27,6 +27,9 @@ gem 'pg'
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.1'
   gem 'rspec-collection_matchers', '~> 1.0.0'
+  gem 'factory_girl_rails', '~> 4.4.1'
+  gem 'database_cleaner', '< 1.1.0'
+  gem 'simplecov', '~> 0.9.0', require: false
 end
 
 gem 'spring-commands-rspec', group: :development
