@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :replies
+
   validates :email, presence: true, uniqueness: true
 
   validates :password, presence: true, length: {minimum: 5, maximum: 120},
@@ -17,6 +19,11 @@ class User < ActiveRecord::Base
 
   def ensure_auth_token
     self.auth_token ||= generate_auth_token
+  end
+
+  def reset_auth_token
+    self.auth_token = generate_auth_token
+    save
   end
 
   private

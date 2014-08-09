@@ -22,6 +22,8 @@ var app = angular.module('evaluatjonApp', [
 app.config(function(AuthProvider) {
   AuthProvider.loginPath('/api/users/sign_in');
   AuthProvider.loginMethod('POST');
+  AuthProvider.logoutPath('/api/users/sign_out.json');
+  AuthProvider.logoutMethod('DELETE');
 });
 
 app.config(function ($routeProvider) {
@@ -33,9 +35,15 @@ app.config(function ($routeProvider) {
 });
 
 app.factory('Rating', ['$resource', function ($resource) {
-  return $resource('/api/ratings/:id.json', null, {
-    'update': {method: 'PUT'}
-  });
+  return $resource('/api/ratings/:id.json',
+                   {id: '@id'},
+                   {'update': {method: 'PUT'}});
+}]);
+
+app.factory('Reply', ['$resource', function ($resource) {
+  return $resource('/api/ratings/:rating_id/replies/:id.json',
+                   {id: '@id', rating_id: '@rating_id'},
+                   {'update': {method: 'PUT'}});
 }]);
 
 app.directive('starRating', function() {

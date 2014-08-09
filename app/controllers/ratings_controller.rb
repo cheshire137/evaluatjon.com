@@ -1,4 +1,5 @@
 class RatingsController < ApplicationController
+  before_filter :authenticate_user_from_token!, only: [:destroy, :update]
   before_filter :authenticate_user!, only: [:destroy, :update]
   before_action :set_rating, only: [:show, :update, :destroy]
 
@@ -6,13 +7,13 @@ class RatingsController < ApplicationController
   # GET /ratings.json
   def index
     @ratings = Rating.order(created_at: :desc)
-    render json: @ratings
+    render json: @ratings.to_json(include: {replies: {include: :user}})
   end
 
   # GET /ratings/1
   # GET /ratings/1.json
   def show
-    render json: @rating
+    render json: @rating.to_json(include: {replies: {include: :user}})
   end
 
   # POST /ratings
@@ -20,7 +21,8 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new(rating_params)
     if @rating.save
-      render json: @rating, status: :created, location: @rating
+      render json: @rating.to_json(include: :replies), status: :created,
+             location: @rating
     else
       render json: @rating.errors.full_messages, status: :unprocessable_entity
     end

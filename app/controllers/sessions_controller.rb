@@ -9,6 +9,7 @@ class SessionsController < Devise::RegistrationsController
     resource = User.find_for_database_authentication(
       email: params[:user][:email]
     )
+    resource.reset_auth_token
     return invalid_login_attempt unless resource
     if resource.valid_password?(params[:user][:password])
       sign_in 'user', resource
@@ -19,6 +20,7 @@ class SessionsController < Devise::RegistrationsController
   end
 
   def destroy
+    resource.reset_auth_token
     sign_out resource_name
   end
 
