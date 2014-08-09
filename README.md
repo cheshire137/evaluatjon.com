@@ -33,12 +33,15 @@ You need [Ruby](https://www.ruby-lang.org/en/installation/) (I recommend [RubyIn
 ## How to Test
 
 1. `RAILS_ENV=test rake db:create db:migrate`
-1. `grunt heroku:production` to update the contents of `public/` for feature tests.
-1. `RAILS_ENV=test rspec`
+1. `RAILS_ENV=test rake spec:controllers`
+1. `RAILS_ENV=test rake spec:models`
 
 ### Feature Tests
 
-To run feature tests in `spec/features`, you will need Firefox.
+These use [Capybara Webkit](https://github.com/thoughtbot/capybara-webkit). You will need [Qt](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit).
+
+1. `grunt heroku:production` to update the contents of `public/`.
+1. `RAILS_ENV=test rake spec:features`
 
 ## How to Deploy to Heroku
 

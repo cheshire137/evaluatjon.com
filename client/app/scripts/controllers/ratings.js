@@ -11,7 +11,7 @@ angular.module('evaluatjonApp')
   .controller('RatingsCtrl', ['$scope', '$http', '$window', 'Rating', 'Reply', 'Auth', function ($scope, $http, $window, Rating, Reply, Auth) {
     $scope.ratings = Rating.query();
     $scope.statistics = {average: {}};
-    $scope.new_rating = {stars: 0, error_messages: []};
+    $scope.new_rating = {stars: 0, error_messages: [], stars_label: undefined};
     $scope.auth_status = {logged_in: Auth.isAuthenticated(),
                           user: {}};
     $scope.credentials = {email: '', password: ''};
@@ -20,6 +20,27 @@ angular.module('evaluatjonApp')
 
     $http.get('/api/ratings/statistics.json').success(function(data) {
       $scope.statistics.average = parseFloat(data.average);
+    });
+
+    $scope.$watch('new_rating.stars', function(value) {
+      var label = '';
+      if (value % 1 === 0) {
+        label = value;
+      } else {
+        var whole_number = (value + '').replace(/.5$/, '');
+        if (whole_number === '0') {
+          whole_number = '';
+        } else {
+          whole_number += ' ';
+        }
+        label = whole_number + '½';
+      }
+      var units = 'star';
+      if (value === 0 || value > 1) {
+        units += 's';
+      }
+      label += ' ' + units;
+      $scope.new_rating.stars_label = label;
     });
 
     $scope.login = function() {
