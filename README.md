@@ -51,6 +51,7 @@ These use [Capybara Webkit](https://github.com/thoughtbot/capybara-webkit). You 
 1. `git push heroku master`
 1. `heroku run rake db:migrate`
 1. `heroku run rake db:seed`
+1. `heroku ps:scale web=1`
 1. Optionally run `heroku run rails c` to open a Rails console and manually create a user, ideally Jon. This user will be able to create replies, delete replies, and delete ratings. Their replies always show up tagged as Jon.
 
 ## Thanks
