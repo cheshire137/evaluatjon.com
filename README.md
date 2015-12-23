@@ -14,7 +14,7 @@ elicit feedback about yourself or anything really. It's built as a Ruby on
 Rails JSON API back end and an AngularJS front end. I used Bower, Yeoman, and
 Grunt to develop it.
 
-![screenshot](https://raw.githubusercontent.com/moneypenny/evaluatjon.com/master/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/cheshire137/evaluatjon.com/master/screenshot.png)
 
 ## How to Develop
 
