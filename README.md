@@ -47,7 +47,8 @@ These use [Capybara Webkit](https://github.com/thoughtbot/capybara-webkit). You 
 
 1. `git remote add heroku git@heroku.com:yourherokuapp.git`
 1. `heroku config:set NODE_ENV=production`
-1. `heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git`
+1. `heroku buildpacks:add https://github.com/jasonswett/heroku-buildpack-nodejs-grunt-compass`
+1. `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-ruby.git`
 1. `git push heroku master`
 1. `heroku run rake db:migrate`
 1. `heroku run rake db:seed`
