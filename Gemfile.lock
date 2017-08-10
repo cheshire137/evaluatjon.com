@@ -165,3 +165,9 @@ DEPENDENCIES
   simplecov (~> 0.9.0)
   spring
   spring-commands-rspec
+
+RUBY VERSION
+   ruby 2.2.5p319
+
+BUNDLED WITH
+   1.15.3

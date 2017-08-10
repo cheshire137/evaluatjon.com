@@ -41,4 +41,4 @@ gem 'compass'
 
 gem 'devise'
 
-ruby "2.1.1"
+ruby "2.2.5"
